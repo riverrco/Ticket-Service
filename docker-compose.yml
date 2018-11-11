@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  ticketservice:
+    build:
+      dockerfile: ./docker/Dockerfile.dev
+      context: .
+    restart: always
+    volumes: 
+      - .:/usr/src/ticketService
+      - /usr/src/node_modules
+    ports:
+      - ${PORT}:${PORT}
+      - 9229:9229
+    environment: 
+      - FORCE_COLOR=1
+    command: ['sh', '-c', 'sleep 20 && npm run start:dev']
+    depends_on: 
+      - mongo
+  
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment: 
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
+    volumes:
+      - ./mongo-data:/data/db
+    
+      
+
+
+      

@@ -1,0 +1,13 @@
+FROM node:alpine
+
+WORKDIR /usr/src/ticketService
+
+COPY ./package*.json .
+
+RUN npm install && npm i knex nodemon -g
+
+COPY . .
+
+EXPOSE 9092
+
+CMD ["npm", "run", "start:dev"]
